@@ -6,13 +6,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity(debug = true)
 @Configuration
 public class SecurityConfig {
 
-    @Bean
+   /* @Bean
     public UserDetailsService userDetailsService(){
         //using without database
        UserDetails userDetails1 = User.withDefaultPasswordEncoder()
@@ -30,8 +32,12 @@ public class SecurityConfig {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager(userDetails1,userDetails2);
 
         return inMemoryUserDetailsManager;
-    }
+    }*/
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
 
 

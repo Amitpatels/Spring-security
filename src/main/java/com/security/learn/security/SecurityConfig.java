@@ -2,13 +2,13 @@ package com.security.learn.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity(debug = true)
 @Configuration
@@ -39,6 +39,32 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+       /* httpSecurity.authorizeHttpRequests(
+            request -> {
+                //api/route2 -> public
+                request.requestMatchers("/api/route2","/register").permitAll();
+                request.requestMatchers("/users/**").permitAll();
+                request.requestMatchers(HttpMethod.POST,"/products");
+                //baki ko authenticated
+                request.anyRequest().authenticated();
+            }
+        );*/
 
+        httpSecurity.authorizeHttpRequests(
+                request -> {
+                    //api/route2 -> public
+                    request.requestMatchers("/api/route2").permitAll()
+                    .requestMatchers("/users/**").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/products").authenticated()
+                    //baki ko authenticated
+                    .anyRequest().authenticated();
+                }
+        );
 
+        //form based login
+        httpSecurity.formLogin(Customizer.withDefaults());
+        httpSecurity.httpBasic(Customizer.withDefaults());
+        return httpSecurity.build();
+    }
 }

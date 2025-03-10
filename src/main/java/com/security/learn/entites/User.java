@@ -3,6 +3,7 @@ package com.security.learn.entites;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,6 @@ public class User {
     private String userName;
     private String password;
 
-    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 }

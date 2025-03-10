@@ -19,7 +19,7 @@ public class Role {
     //ROLE_ADMIN
     //ROLE_GUEST
 
-    @ManyToMany( fetch = FetchType.LAZY)
+    @ManyToMany( mappedBy = "roles",fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
 }

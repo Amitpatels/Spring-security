@@ -51,7 +51,7 @@ public class SecurityConfig {
             }
         );*/
 
-        httpSecurity.authorizeHttpRequests(
+       /* httpSecurity.authorizeHttpRequests(
                 request -> {
                     //api/route2 -> public
                     request.requestMatchers("/api/route2").permitAll()
@@ -60,7 +60,9 @@ public class SecurityConfig {
                     //baki ko authenticated
                     .anyRequest().authenticated();
                 }
-        );
+        );*/
+
+        httpSecurity.authorizeHttpRequests(request -> request.anyRequest().permitAll());
 
         //form based login
         httpSecurity.formLogin(Customizer.withDefaults());

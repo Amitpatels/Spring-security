@@ -1,10 +1,11 @@
 package com.security.learn.entites;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,5 +16,7 @@ public class User {
     private String userId;
     private String userName;
     private String password;
-    String role = "USER";
+
+    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
 }

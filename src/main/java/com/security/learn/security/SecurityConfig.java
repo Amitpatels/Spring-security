@@ -2,7 +2,6 @@ package com.security.learn.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -62,7 +61,14 @@ public class SecurityConfig {
                 }
         );*/
 
-        httpSecurity.authorizeHttpRequests(request -> request.anyRequest().permitAll());
+       //httpSecurity.authorizeHttpRequests(request -> request.anyRequest().permitAll());
+        httpSecurity.authorizeHttpRequests(
+            request -> request
+                    .requestMatchers("/api/route1","/api/route2").hasRole("ADMIN")
+                    .requestMatchers("/api/route3","/api/route4").hasRole("GUEST")
+                    .anyRequest().permitAll()
+        );
+
 
         //form based login
         httpSecurity.formLogin(Customizer.withDefaults());
